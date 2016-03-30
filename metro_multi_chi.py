@@ -7,7 +7,7 @@ import __builtin__ as std
 d = 2
 n = 40
 steps = 1000*n**d
-beta = arange(0.3,0.6,0.01)
+Beta = arange(0.3,0.6,0.01)
 grootte = n**d
 
 def H (spins,x) :
@@ -41,7 +41,7 @@ def run ((grootte, steps, beta)) :
     randP = random.random(steps)
     for i in range(steps-1) :
         x = randloc[i]
-            dE = H(spins,x)
+        dE = H(spins,x)
         if(min(exp(dE*beta),1) > randP[i]) :
             spins[x]=1-spins[x]
             M.append(M[-1]+2*(2*spins[x]-1))
@@ -57,18 +57,12 @@ def run ((grootte, steps, beta)) :
 Chi = []
 Mabs = []
 if __name__ == '__main__':
-    args = map(lambda b: (grootte, steps, b), beta)
+    args = map(lambda b: (grootte, steps, b), Beta)
     p = Pool()
     for res in p.map(run, args):
         Chi.append(res[0])
         Mabs.append(res[1])
-print('Done simulating, starting plotting...')
-plot.figure(0)
-plot.plot(beta,Chi)
-plot.ylabel(r'$\chi$')
-plot.xlabel(r'$\beta$')
-plot.figure(1)
-plot.plot(beta,Mabs)
-plot.ylabel(r'$|m|$')
-plot.xlabel(r'$\beta$')
-plot.show()
+print('Done simulating, saving data...')
+save('metro_beta', Beta)
+save('metro_beta', Chi)
+save('metro_Mabs', Mabs)

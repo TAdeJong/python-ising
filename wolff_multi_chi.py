@@ -1,12 +1,11 @@
 from numpy import *
-#import matplotlib.pyplot as plot
 from multiprocessing import Pool,current_process
 from collections import deque
 import time
 import __builtin__ as std
 
 d = 2
-Beta = arange(0.3,0.5,0.005)
+Beta = arange(0.3,0.4,0.005)
 
 def nbr (x,todo) :
     for i in range(d) : 
@@ -60,20 +59,7 @@ if __name__ == '__main__':
         #Chi.reverse()
         #Mabs.reverse()
         #t.reverse()
-        save('chi_n'+str(n)+'beta_in'+str(Beta[0])+','+str(Beta[-1])+ 'steps=' +str(steps), Chi)
-        save('Mabs_n'+str(n)+'beta_in'+str(Beta[0])+','+str(Beta[-1])+'steps=' +str(steps), Mabs)
-        save('t_n'+str(n)+'beta_in'+str(Beta[0])+','+str(Beta[-1])+'steps=' +str(steps), t)
-print('Done simulating, starting plotting...')
-plot.figure(0)
-plot.plot(Beta,Chi)
-plot.ylabel(r'$\chi$')
-plot.xlabel(r'$\beta$')
-plot.figure(1)
-plot.plot(Beta,Mabs)
-plot.ylabel(r'$|m|$')
-plot.xlabel(r'$\beta$')
-plot.figure(2)
-plot.plot(Beta,t)
-plot.ylabel('t')
-plot.xlabel(r'$\beta$')
-plot.show()
+print('Done simulating, saving data')
+        save('wolff_beta', Beta)
+        save('wolff_Chi', Chi)
+        save('wolff_Mabs', Mabs)
