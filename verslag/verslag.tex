@@ -1,6 +1,6 @@
 \documentclass[11pt,twocolumn]{article}
 \usepackage{enumerate}
-\usepackage{hyperref}
+\usepackage[hidelinks]{hyperref}
 \usepackage{amsmath, amssymb, textcomp}
 \usepackage{graphicx}
 \usepackage[section]{placeins}
@@ -28,10 +28,12 @@ The Metropolis algorithm~\cite{Metropolis} utilizes single spin flips to transit
 \[g(\mu,\nu) = g(\mu,\nu) = \frac1N\]
 \subsection{Wolff}
 \section{Implementation}
-Both the Metropolis and the Wolff algorithm were implemented using Python and NumPy. While this choice of language will not rersult in the fastest implementation it yields easily readable and adaptable code. Moreover, simple libraries exist to parallelise the different runs to keep the total wall clock computation time reasonable.
+Both the Metropolis and the Wolff algorithm were implemented using Python and NumPy. While this choice of language will not result in the fastest implementation it yields easily readable and adaptable code. 
+Moreover, simple libraries exist to parallelise the different runs to keep the total wall clock computation time reasonable.
+The other major benefit of using python is of course easy access to extensive plotting libraries.
 \section{Results}
 \subsection{Thermalization}
-To visualize the thermalisation we do several runs for each value of $\beta$, calculate the magnetisation for each and take the mean across different runs. This way, the plot will be a flat line when thermalized. Results for a $40\times40$ grid and 100 runs per value of beta is given in figure \ref{therm}
+To visualize the thermalisation we do several runs for each value of $\beta$, calculate the magnetisation for each and take the mean across different runs. This way, the plot will be a flat line when thermalized. Results for a $40\times40$ grid and 100 runs per value of beta is given in figure \ref{therm}. The obvious conclusion here is that the thermalisation time depends quite strongly on $\beta$, especially around the critical point, which corresponds with the interesting part of the simulations. An algorithm which would bypass this behaviour would thus be beneficial. The Wolff algorithm is such an algorithm, as although it still needs to thermalize, the thermalization time does not diverge around the critical point.
 \begin{figure}[!ht]
 \centering \includegraphics[width=\columnwidth]{figs/therm.pdf}
 \caption{Thermalization}
