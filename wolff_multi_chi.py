@@ -5,7 +5,7 @@ import time
 import __builtin__ as std
 
 d = 2
-Beta = arange(0.3,0.4,0.005)
+Beta = arange(0.3,0.6,0.005)
 
 def nbr (x,todo) :
     for i in range(d) : 
@@ -60,6 +60,6 @@ if __name__ == '__main__':
         #Mabs.reverse()
         #t.reverse()
 print('Done simulating, saving data')
-        save('wolff_beta', Beta)
-        save('wolff_Chi', Chi)
-        save('wolff_Mabs', Mabs)
+save('wolff_beta', Beta)
+save('wolff_Chi', Chi)
+save('wolff_Mabs', Mabs)
