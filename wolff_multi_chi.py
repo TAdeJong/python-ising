@@ -4,8 +4,10 @@ from collections import deque
 import time
 import __builtin__ as std
 
+n = 40
 d = 2
-Beta = arange(0.3,0.6,0.005)
+Beta = arange(0.25,0.5,0.001)
+savename = 'wolff'
 
 def nbr (x,todo) :
     for i in range(d) : 
@@ -43,23 +45,30 @@ def run (beta) :
     return (Chi,Mabs,t)
 
 if __name__ == '__main__':
-    for n in [40] :
-        Chi = []
-        Mabs = []
-        t = []
-        steps = 10000
-        grootte = n**d
-        p = Pool()
-        #args = map(lambda b: (grootte, steps, b), beta)
-        #args.reverse()
-        for res in p.map(run, Beta):
-            Chi.append(res[0])
-            Mabs.append(res[1])
-            t.append(res[2])
-        #Chi.reverse()
-        #Mabs.reverse()
-        #t.reverse()
+    Chi = []
+    Mabs = []
+    t = []
+    steps = 10000
+    grootte = n**d
+    try:
+        Beta_done = load(savename+'_beta.npy')
+    except IOerror:
+	Beta_done = []
+    Beta_todo = list(set(Beta)-set(Beta_done))
+    p = Pool()
+    #args = map(lambda b: (grootte, steps, b), beta)
+    #args.reverse()
+    for res in p.map(run, Beta_todo):
+        Chi.append(res[0])
+        Mabs.append(res[1])
+        t.append(res[2])
+save(savename+'_beta', Beta)
+save(savename+'_Chi', Chi)
+save(savename+'_Mabs', Mabs)
+    #Chi.reverse()
+    #Mabs.reverse()
+    #t.reverse()
 print('Done simulating, saving data')
-save('wolff_beta', Beta)
-save('wolff_Chi', Chi)
-save('wolff_Mabs', Mabs)
+save(savename+'_beta', Beta)
+save(savename+'_Chi', Chi)
+save(savename+'_Mabs', Mabs)
