@@ -56,13 +56,16 @@ def run ((grootte, steps, beta)) :
 
 Chi = []
 Mabs = []
+time = []
 if __name__ == '__main__':
     args = map(lambda b: (grootte, steps, b), Beta)
     p = Pool()
     for res in p.map(run, args):
         Chi.append(res[0])
         Mabs.append(res[1])
+        time.append(res[2])
 print('Done simulating, saving data...')
 save('metro_beta', Beta)
 save('metro_beta', Chi)
 save('metro_Mabs', Mabs)
+save('metro_time', time)
