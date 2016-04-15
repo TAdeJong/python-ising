@@ -5,12 +5,20 @@ import time
 import __builtin__ as std
 
 d = 2
-Beta = arange(0.3,0.6,0.005)
+Beta = arange(0.42,0.44,0.0005)
 
 def nbr (x,todo) :
     for i in range(d) : 
         todo.append((x+ n**i)%grootte)
         todo.append((x- n**i)%grootte)
+
+def hexnbr (x,todo) :
+    for i in range(d) : 
+        todo.append((x+ n**i)%grootte)
+        todo.append((x- n**i)%grootte)
+    todo.append((x+ n-1)%grootte)
+    todo.append((x- n+1)%grootte)
+
 
 def run (beta) :
     t = time.clock()
@@ -41,26 +49,22 @@ def run (beta) :
     Chi = beta*(mean(M**2,0)-mean(absolute(M),0)**2)/grootte
     Mabs = mean(absolute(M),0)/grootte
     return (Chi,Mabs,t)
-
+name = 'wolffzoom'
 if __name__ == '__main__':
-    for n in [40] :
+    for n in [100] :
         Chi = []
         Mabs = []
         t = []
-        steps = 10000
+        steps = 12000
         grootte = n**d
         p = Pool()
         #args = map(lambda b: (grootte, steps, b), beta)
-        #args.reverse()
+        save(name+'_'+str(n)+'_beta', Beta)
         for res in p.map(run, Beta):
             Chi.append(res[0])
             Mabs.append(res[1])
             t.append(res[2])
-        #Chi.reverse()
-        #Mabs.reverse()
-        #t.reverse()
-print('Done simulating, saving data')
-save('wolff_beta', Beta)
-save('wolff_Chi', Chi)
-save('wolff_Mabs', Mabs)
-save('wolff_time', time)
+        print('Done simulating for n = '+str(n)+', saving data')
+        save(name+'_'+str(n)+'_Chi', Chi)
+        save(name+'_'+str(n)+'_Mabs', Mabs)
+        save(name+'_'+str(n)+'_time', t)
