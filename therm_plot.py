@@ -42,7 +42,6 @@ for i in Beta :
 f, ((ax1,ax2),(ax3,ax4)) = plot.subplots(2,2, sharex='col', sharey='row')
 ax1.set_title('Relaxation')
 ax1.plot(arange(0,steps/grootte,1.0/grootte),Mdata1)
-plot.legend(labels)
 plot.xlabel('Metropolis steps per lattice site')
 ax1.set_ylabel(r'Magnetization $|m|$')
 #plot.figure(1)
