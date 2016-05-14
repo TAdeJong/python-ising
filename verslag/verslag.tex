@@ -5,6 +5,7 @@
 \usepackage{graphicx}
 \usepackage[section]{placeins}
 \usepackage{cite}
+\usepackage{color}
 
 \begin{document}
 
@@ -27,21 +28,27 @@ In this paper we will investigate the different properties of the Ising model in
 The Metropolis algorithm~\cite{Metropolis} utilizes single spin flips to transition between states. By selecting a random spin at each step we make sure that the transition chance  between any two neighbouring states $\mu$, $\nu$ is equal:
 \[g(\mu,\nu) = g(\mu,\nu) = \frac1N\]
 \subsection{Wolff}
+The Metropolis algorithm has as major disadvantage that the thermalization slows down exponentially around the critical point. As this is the area in parameter space we are most interested in, another algorithm is needed. We use an algorithm proposed by Wolff in 1989~\cite{Wolff}. In essence, this algorithm stochastically builds up a cluster which it will flip at once, thus negating the critical slowdown.
 \section{Implementation}
 Both the Metropolis and the Wolff algorithm were implemented using Python and NumPy. While this choice of language will not result in the fastest implementation it yields easily readable and adaptable code. 
 Moreover, simple libraries exist to parallelise the different runs to keep the total wall clock computation time reasonable.
 The other major benefit of using python is of course easy access to extensive plotting libraries.
 \section{Results}
-\subsection{Thermalization}
+\subsection{Thermalization\& Auto-correlation}
 To visualize the thermalisation we do several runs for each value of $\beta$, calculate the magnetisation for each and take the mean across different runs. This way, the plot will be a flat line when thermalized. Results for a $40\times40$ grid and 100 runs per value of beta is given in figure \ref{therm}. The obvious conclusion here is that the thermalisation time depends quite strongly on $\beta$, especially around the critical point, which corresponds with the interesting part of the simulations. An algorithm which would bypass this behaviour would thus be beneficial. The Wolff algorithm is such an algorithm, as although it still needs to thermalize, the thermalization time does not diverge around the critical point.
 \begin{figure}[!ht]
 \centering \includegraphics[width=\columnwidth]{figs/therm.pdf}
 \caption{Thermalization}
 \label{therm}
 \end{figure}
-\subsection{Auto-correlation}
+The normalized autocorrelation of the Magnetisation and the energy for diverse values of $\beta J$ is given in figures \ref{magcorrel} and \ref{Ecorrel}.
 \subsection{Finite size scaling}
 \section{Data collapse}
+\subsection{Rectangular 2D lattice}
+To obtain a data collapse we use the values as found by Newman and Barkema \cite{Thebook}: $\gamma = 1.76$, $\nu = 1.00$ and $T_c=2.269J$. For the exponent $\beta$ we used the exact value $\frac18$. The result is shown in figure \ref{2Dcollapse}
+\subsection{Hexagonal 2d lattice}
+To check the universality of the critical exponents we also ran the simulations for a hexagonal lattice. All values are kept the same as compared to the previous section, except for $T_c$, which we determine by {\color{red}...TODO} The result can be seen in figure \ref{Hexcollapse}.
+\subsection{3 dimensions}
 \bibliography{verslag}{}
 \bibliographystyle{plain}
 

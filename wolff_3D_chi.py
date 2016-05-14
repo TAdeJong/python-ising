@@ -4,7 +4,7 @@ from collections import deque
 import time
 import __builtin__ as std
 
-d = 2
+d = 3
 Beta = arange(0.2,0.5,0.005)
 
 def nbr (x,todo) :
@@ -40,7 +40,7 @@ def run (beta) :
         while todo :
             y = todo.pop()
             if spins[y] == xspin and Padd > random.random() :
-                hexnbr(y,todo)
+                nbr(y,todo)
                 spins[y] = 1-spins[y]
                 cluster += 1
         M[i+1]=M[i] + cluster*2*(2*spins[x]-1)
@@ -53,10 +53,10 @@ def run (beta) :
     Mabs = mean(absolute(M),0)/grootte
     return (Chi,Mabs,t)
 
-name = 'hexwolff'
+name = '3Dwolff'
 if __name__ == '__main__':
-    for n in [100] :
-        steps = 10000
+    for n in [20,30,40] :
+        steps = 15000
         Chi = []
         Mabs = []
         t = []

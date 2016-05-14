@@ -4,7 +4,7 @@ import __builtin__ as std
 import sys
 
 
-n=[20,30,40,50,60,100]
+n=[20,30]
 name = sys.argv[1]
 print name
 if len(sys.argv) > 2 :
