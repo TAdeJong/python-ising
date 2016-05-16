@@ -53,7 +53,7 @@ def clusterflip(spins,x,nbrdelta,P) :
     nbr(x,todo,nbrdelta)
     while todo :
         y = todo.pop()
-        if spins[y] == xspin and Padd > random.random() :
+        if spins[y] == xspin and P > random.random() :
             nbr(y,todo,nbrdelta)
             spins[y] = 1-spins[y]
             cluster += 1
