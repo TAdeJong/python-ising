@@ -5,12 +5,14 @@ import time
 import __builtin__ as std
 
 d = 2
-Beta = arange(0.2,0.5,0.005)
+Beta = arange(0.3,0.5,0.005)
 
 def nbr (x,todo) :
-    for i in range(d) : 
-        todo.append((x+ n**i)%grootte)
-        todo.append((x- n**i)%grootte)
+    #for i in range(d) : 
+    #    todo.append((x+ n**i)%grootte)
+     #   todo.append((x- n**i)%grootte)
+    nbrdelta = [1,-1,n,-n]
+    todo.extend([(x+nbr)%grootte for nbr in nbrdelta])
 
 def hexnbr (x,todo) :
     for i in range(d) : 
@@ -30,17 +32,17 @@ def run (beta) :
     M[0] = 2.0*sum(spins)-grootte
     randloc = random.randint(0,grootte,steps)
     Padd = 1-exp(-2*beta)
+    nbrdelta = [1,-1,n,-n]
     for i in range(steps-1) :
         x = randloc[i]
         xspin = spins[x]
         spins[x] = 1-spins[x]
         cluster = 1
-        todo = deque()
-        hexnbr(x,todo)
+        todo = deque([(x+z)%grootte for z in nbrdelta])
         while todo :
             y = todo.pop()
             if spins[y] == xspin and Padd > random.random() :
-                hexnbr(y,todo)
+                nbr(y,todo)
                 spins[y] = 1-spins[y]
                 cluster += 1
         M[i+1]=M[i] + cluster*2*(2*spins[x]-1)
@@ -53,9 +55,9 @@ def run (beta) :
     Mabs = mean(absolute(M),0)/grootte
     return (Chi,Mabs,t)
 
-name = 'hexwolff'
+name = 'testwolff'
 if __name__ == '__main__':
-    for n in [100] :
+    for n in [20] :
         steps = 10000
         Chi = []
         Mabs = []
