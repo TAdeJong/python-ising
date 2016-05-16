@@ -5,7 +5,7 @@ import time
 import __builtin__ as std
 
 d = 3
-Beta = arange(0.2,0.5,0.005)
+Beta = arange(0.1,0.3,0.005)
 
 def nbr (x,todo,nbrdelta) :
     #for i in range(d) : 
@@ -23,7 +23,7 @@ def hexnbr (x,todo) :
 
 def run (beta) :
     t = time.clock()
-	#Total magnetization
+    #Total magnetization
     M = zeros(steps)
     random.seed()
     p = current_process()
@@ -35,31 +35,28 @@ def run (beta) :
         nbrdelta += [n**i,-n**i]
     Padd = 1-exp(-2*beta)
     for i in range(steps-1) :
-        M[i+1] = M[i] + clusterflip(spins,randloc[i],nbrdelta,Padd)
+        x = randloc[i]
+        xspin = spins[x]
+        spins[x] = 1-spins[x]
+        cluster = 1
+        todo = deque()
+        nbr(x,todo,nbrdelta)
+        while todo :
+            y = todo.pop()
+            if spins[y] == xspin and Padd > random.random() :
+                nbr(y,todo,nbrdelta)
+                spins[y] = 1-spins[y]
+                cluster += 1
+        M[i+1] = M[i] + cluster*2*(2*spins[x]-1)
     t = time.clock() - t
     print 'beta =', beta, ', n =', n , 'data generated in', t, 'at', p.name
     M = array(M[steps/3:steps])
-	#Chi = susceptibility per spin
+    #Chi = susceptibility per spin
     Chi = beta*(mean(M**2,0)-mean(absolute(M),0)**2)/grootte
-	#Mabs absolute value of the mean magnetization per spin
+    #Mabs absolute value of the mean magnetization per spin
     Mabs = mean(absolute(M),0)/grootte
     return (Chi,Mabs,t)
-
-def clusterflip(spins,x,nbrdelta,P) :
-    xspin = spins[x]
-    spins[x] = 1-spins[x]
-    cluster = 1
-    todo = deque()
-    nbr(x,todo,nbrdelta)
-    while todo :
-        y = todo.pop()
-        if spins[y] == xspin and P > random.random() :
-            nbr(y,todo,nbrdelta)
-            spins[y] = 1-spins[y]
-            cluster += 1
-    return cluster*2*(2*spins[x]-1)
-    
-    
+  
 
 name = '3Dwolfftest'
 if __name__ == '__main__':
