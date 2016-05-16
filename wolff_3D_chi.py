@@ -7,13 +7,13 @@ import __builtin__ as std
 d = 3
 Beta = arange(0.1,0.3,0.005)
 
-def nbr (n,d) :
+def nbrgen (n,d) :
     nbrs = []
     for i in range(d) :
         nbrs+= [n**i,-n**i]
     return nbrs
 
-def hexnbr (n,d) :
+def hexnbrgen (n,d) :
     nbrs = []
     for i in range(d) :
         nbrs+= [n**i,-n**i]
@@ -33,7 +33,7 @@ def run (beta) :
     spins = random.randint(0,2,grootte)
     M[0] = 2.0*sum(spins)-grootte
     randloc = random.randint(0,grootte,steps)
-    nbrdelta = nbr(n,d)
+    nbrdelta = nbrgen(n,d)
     Padd = 1-exp(-2*beta)
     for i in range(steps-1) :
         x = randloc[i]
