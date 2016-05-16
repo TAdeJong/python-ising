@@ -39,11 +39,11 @@ def run (beta) :
         xspin = spins[x]
         spins[x] = 1-spins[x]
         cluster = 1
-        todo = deque([(x+i)%grootte for i in nbrdelta])
+        todo = deque([(x+nbr)%grootte for nbr in nbrdelta])
         while todo :
             y = todo.pop()
             if spins[y] == xspin and Padd > random.random() :
-                todo.extend([(x+i)%grootte for i in nbrdelta])
+                todo.extend([(y+nbr)%grootte for nbr in nbrdelta])
                 spins[y] = 1-spins[y]
                 cluster += 1
         M[i+1] = M[i] + cluster*2*(2*spins[x]-1)
@@ -57,10 +57,10 @@ def run (beta) :
     return (Chi,Mabs,t)
   
 
-name = '3Dwolfftest'
+name = '3Dwolff'
 if __name__ == '__main__':
-    for n in [20] :
-        steps = 15000
+    for n in [10] :
+        steps = 20000
         Chi = []
         Mabs = []
         t = []
