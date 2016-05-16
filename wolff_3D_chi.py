@@ -7,10 +7,11 @@ import __builtin__ as std
 d = 3
 Beta = arange(0.2,0.5,0.005)
 
-def nbr (x,todo) :
-    for i in range(d) : 
-        todo.append((x+ n**i)%grootte)
-        todo.append((x- n**i)%grootte)
+def nbr (x,todo,nbrdelta) :
+    #for i in range(d) : 
+    #    todo.append((x+ n**i)%grootte)
+    #    todo.append((x- n**i)%grootte)
+    todo.extend([(x+i)%grootte for i in nbrdelta])
 
 def hexnbr (x,todo) :
     for i in range(d) : 
@@ -29,33 +30,40 @@ def run (beta) :
     spins = random.randint(0,2,grootte)
     M[0] = 2.0*sum(spins)-grootte
     randloc = random.randint(0,grootte,steps)
+    nbrdelta =[]
+    for i in range(d) :
+        nbrdelta += [n**i,-n**i]
     Padd = 1-exp(-2*beta)
     for i in range(steps-1) :
-        x = randloc[i]
-        xspin = spins[x]
-        spins[x] = 1-spins[x]
-        cluster = 1
-        todo = deque()
-        hexnbr(x,todo)
-        while todo :
-            y = todo.pop()
-            if spins[y] == xspin and Padd > random.random() :
-                nbr(y,todo)
-                spins[y] = 1-spins[y]
-                cluster += 1
-        M[i+1]=M[i] + cluster*2*(2*spins[x]-1)
+        M[i+1] = M[i] + clusterflip(spins,randloc[i],nbrdelta,Padd)
     t = time.clock() - t
     print 'beta =', beta, ', n =', n , 'data generated in', t, 'at', p.name
-    M = array(M[grootte:steps])
+    M = array(M[steps/3:steps])
 	#Chi = susceptibility per spin
     Chi = beta*(mean(M**2,0)-mean(absolute(M),0)**2)/grootte
 	#Mabs absolute value of the mean magnetization per spin
     Mabs = mean(absolute(M),0)/grootte
     return (Chi,Mabs,t)
 
-name = '3Dwolff'
+def clusterflip(spins,x,nbrdelta,P) :
+    xspin = spins[x]
+    spins[x] = 1-spins[x]
+    cluster = 1
+    todo = deque()
+    nbr(x,todo,nbrdelta)
+    while todo :
+        y = todo.pop()
+        if spins[y] == xspin and Padd > random.random() :
+            nbr(y,todo,nbrdelta)
+            spins[y] = 1-spins[y]
+            cluster += 1
+    return cluster*2*(2*spins[x]-1)
+    
+    
+
+name = '3Dwolfftest'
 if __name__ == '__main__':
-    for n in [20,30,40] :
+    for n in [20] :
         steps = 15000
         Chi = []
         Mabs = []
