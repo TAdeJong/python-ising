@@ -9,7 +9,7 @@
 
 \begin{document}
 
-\title{The Ising model\\ Computational Physics}
+\title{The Ising model\\ {\large Computational Physics}}
 \author{Tobias de Jong\\ s0881260}
 \date{\today} % Voeg automatisch de datum in
 
@@ -34,8 +34,8 @@ Both the Metropolis and the Wolff algorithm were implemented using Python and Nu
 Moreover, simple libraries exist to parallelise the different runs to keep the total wall clock computation time reasonable.
 The other major benefit of using python is of course easy access to extensive plotting libraries.
 \section{Results}
-\subsection{Thermalization\& Auto-correlation}
-To visualize the thermalisation we do several runs for each value of $\beta$, calculate the magnetisation for each and take the mean across different runs. This way, the plot will be a flat line when thermalized. Results for a $40\times40$ grid and 100 runs per value of beta is given in figure \ref{therm}. The obvious conclusion here is that the thermalisation time depends quite strongly on $\beta$, especially around the critical point, which corresponds with the interesting part of the simulations. An algorithm which would bypass this behaviour would thus be beneficial. The Wolff algorithm is such an algorithm, as although it still needs to thermalize, the thermalization time does not diverge around the critical point.
+\subsection{Thermalization \& Auto-correlation}
+To visualize the thermalization we do several runs for each value of $\beta$, calculate the magnetisation for each and take the mean across different runs. This way, the plot will be a flat line at the equilibrium value when thermalized. Results for a $40\times40$ grid and 100 runs per value of beta is given in figure \ref{therm}. The obvious conclusion here is that the thermalisation time depends quite strongly on $\beta$, especially around the critical point, which constitutes the interesting part of the data. An algorithm which would bypass this slow-down behaviour would thus be beneficial. As mentioned, the Wolff algorithm is such an algorithm, as although it still needs to thermalize, the thermalization time does not diverge around the critical point.
 \begin{figure}[!ht]
 \centering \includegraphics[width=\columnwidth]{figs/therm.pdf}
 \caption{Thermalization}
@@ -49,6 +49,8 @@ To obtain a data collapse we use the values as found by Newman and Barkema \cite
 \subsection{Hexagonal 2d lattice}
 To check the universality of the critical exponents we also ran the simulations for a hexagonal lattice. All values are kept the same as compared to the previous section, except for $T_c$, which we starting with the critical exponents found for the rectangular lattice. This yields $T_c=3.6378$. The result can be seen in figure \ref{Hexcollapse}.
 \subsection{3 dimensions}
+To estimate the values of the critical exponents for 3 dimensions, we use Wolff's algorithm to run for lattice sizes of $10^3$, $20^3$ and $30^3$ spins, both in rectangular and hexagonal close packing lattices. We use the first $10^3$ run of both lattices to estimate the critical temperature and adjust the range of simulated temperatures closer around the critical point, to keep computation time wihin reasonable boundaries.\\
+An attempt at a data collapse is then visually attempted, by varying the critical exponents and -temperature until the curves best overlap. The resulting plot for a rectangular lattice is shown in \ref{collapse3Drect}, the resulting one for the hcp-lattice in figure \ref{collapse3Dhcp}. Note that due to the higher coordination number the critical temperature is shifted, but the critical exponents are the same.
 \bibliography{verslag}{}
 \bibliographystyle{plain}
 
